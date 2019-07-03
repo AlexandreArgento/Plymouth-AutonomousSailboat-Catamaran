@@ -1,12 +1,11 @@
-[![Current version of release](https://img.shields.io/github/release/Plymouth-Sailboat/SailBoatArduinoInterface/all.svg)](https://github.com/Plymouth-Sailboat/SailBoatArduinoInterface/releases/latest)
-
 # Autonomous Sailboat
 
 ### Prerequisites
 
-- Arduino IDE : https://www.arduino.cc/en/Main/Software
+- Raspberry Pi 3 with:
+  - Arduino IDE : https://www.arduino.cc/en/Main/Software
+  - ROS melodic : 
 - Arduino Mega 2560
-- Raspberry Pi 3 with ROS
 
 ### Building and Uploading
 
