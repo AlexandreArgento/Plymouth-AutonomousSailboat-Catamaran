@@ -7,12 +7,22 @@
   - ROS melodic : 
 - Arduino Mega 2560
 
-### Building and Uploading
+### Personnal work
 
-First copy the folder `libraries` and put it in `~/Documents/Arduino/` on your PC.
+Starting from Ulysse Vautier's work:
+- IMU : adaptation to an other sensor model
+- Controller : simplification
+- Sailboat : simplification
 
-You should now be able to launch the *.ino* sketch, compile and upload to the arduino using the [Arduino IDE](https://www.arduino.cc/en/Guide/ArduinoMega2560).
-This will launch the Arduino into Stanby Mode, just receiving data from the sensors and sending them to the PC. It will put the rudder at angle 0 and the sail fully opened. After that it won't and shouldn't move the rudder or the sail.
+### Current state
+
+Publication of IMU heading through a C++ class structure successful.
+Steps to follow:
+- Arduino librairies completion in the `/libraries` folder in one's personal Arduino workspace
+- `AutonomousSailboat.ino` file uploading in the Arduino board
+- (terminal1) roscore
+- (terminal2) rosrun rosserial_python serial_node.py _baud:=115200 _port:=/dev/ttyACM0
+- (terminal3) rqt (message visualization)
 
 ## Authors
 
