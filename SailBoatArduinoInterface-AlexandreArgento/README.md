@@ -1,8 +1,6 @@
 [![Current version of release](https://img.shields.io/github/release/Plymouth-Sailboat/SailBoatArduinoInterface/all.svg)](https://github.com/Plymouth-Sailboat/SailBoatArduinoInterface/releases/latest)
 
-# SailBoatArduinoInterface
-
-Arduino code for [Plymouth's Autonomous Sailboat](https://plymouth-sailboat.github.io/). This contains the libraries, controllers and architecture of our arduino low-level controller for our sailboats. This arduino acquires all the data from the different sensors and send them to the main PC. It has also security features in case the PC shuts down.
+# Autonomous Sailboat
 
 ### Prerequisites
 
