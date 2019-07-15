@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="catamaran" name="kalman_filter" type="kalman_filter" />
+    <node pkg="catamaran" name="filter" type="filter" />
+    <node pkg="catamaran" name="GPS_node" type="GPS_node" />
+    <node pkg="catamaran" name="decision" type="decision" />
+    <node pkg="catamaran" name="control" type="control" />
+</launch>
