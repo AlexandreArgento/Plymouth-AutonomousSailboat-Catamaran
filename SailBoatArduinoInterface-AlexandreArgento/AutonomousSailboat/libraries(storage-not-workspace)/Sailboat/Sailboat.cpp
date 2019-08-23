@@ -26,6 +26,8 @@ Sailboat::~Sailboat()
 
 void Sailboat::setController(Controller* control)
 {
+    //Serial.println("Controller change");
+    PREVIOUS_CONTROLLER = actualControllerI;
     if(controller != NULL)
         controller->setActivated(false);
     controller = control;
@@ -39,6 +41,8 @@ void Sailboat::setController(Controller* control)
 
 void Sailboat::setController(int index)
 {
+    //Serial.println("Controller index change");
+    PREVIOUS_CONTROLLER = actualControllerI;
     if(controller != NULL)
         controller->setActivated(false);
     if(index < NB_CONTROLLERS)
@@ -48,11 +52,13 @@ void Sailboat::setController(int index)
         controller->init();
         controller->setActivated(true);
         
-        ((RC*)sens[SENSOR_RC])->controlling = false;
-        
+        if(SENSOR_RC)
+            ((RC*)sens[SENSOR_RC])->controlling = false;
+        /*
         if(LOGGER)
             Logger::Instance()->Toast("Changed to :", String(controllerNames[index]), 5000);
         publishMsg(String("Changed to :") + String(controllerNames[index]));
+        */
     }
 }
 
@@ -71,9 +77,11 @@ void Sailboat::msgCallback(const std_msgs::String& msg)
         case 'M':
             break;
         case 'P':
+            /*
             if(LOGGER)
                 Logger::Instance()->Toast("From PC : ", String(msg.data+1), 5000);
             publishMsg(String("From PC : ") + String(msg.data+1));
+            */
             break;
     }
     watchdogROS = millis();
@@ -81,8 +89,9 @@ void Sailboat::msgCallback(const std_msgs::String& msg)
 
 void Sailboat::init(ros::NodeHandle* n)
 {
+    nh = n;
     Wire.begin();
-    
+    /*
     sensors[SENSOR_WINDSENSOR] = new WindSensor();
 	if(GPS_SERIAL == 1)
 		sensors[SENSOR_GPS] = new GPS(Serial1);
@@ -90,10 +99,14 @@ void Sailboat::init(ros::NodeHandle* n)
 		sensors[SENSOR_GPS] = new GPS(Serial2);
     if(GPS_SERIAL == 3)
         sensors[SENSOR_GPS] = new GPS(Serial3);
-    sensors[SENSOR_IMU] = new XSens();
     sensors[SENSOR_BATTERY] = new BatterySensor();
+    */
     
-    sens[SENSOR_RC] = new RC();
+    ros::Msg* msg;
+    sensors[SENSOR_IMU] = new IMU();
+    sensors[SENSOR_WINDSENSOR] = new WindSensor();
+    
+    //sens[SENSOR_RC] = new RC();
     
     actuators[ACTUATOR_RUDDER] = new Servo_Motor(RUDDER_PIN,RUDDER_POS_NEUTRAL,RUDDER_POS_MAX,RUDDER_POS_MIN,RUDDER_MIN,RUDDER_MAX,"rudder");
     actuators[ACTUATOR_SAIL] = new Servo_Motor(WINCH_PIN,WINCH_ANGLE_NEUTRAL,WINCH_ANGLE_MAX, WINCH_ANGLE_MIN,SAIL_MIN,SAIL_MAX,"sail");
@@ -102,15 +115,22 @@ void Sailboat::init(ros::NodeHandle* n)
 #endif
     
     for(int i = 0; i < NB_SENSORS; ++i)
+    {
         sensors[i]->init(n);
-    
+    }
+    for(int i = 0; i < NB_SENSORS_NOT_ROS; ++i)
+    {
+        sens[i]->init();
+    }
     for(int i = 0; i < NB_ACTUATORS; ++i)
+    {
         actuators[i]->init(n);
+    }
     
     watchdog = millis();
     watchdogROS = millis();
     
-    n->advertise<std_msgs::String>("MessagerieBateau", 100); // Changed by A.A
+    n->advertise(pubMsg);
 }
 
 void Sailboat::publishMsg(String msg)
@@ -128,15 +148,12 @@ void Sailboat::publishMsg(const char* msg)
 }
 
 void Sailboat::updateSensors()
-{
+{/*
     for(int i = 0; i < NB_SENSORS; ++i) {sensors[i]->update();}
     
     for(int i = 0; i < NB_SENSORS_NOT_ROS; ++i) {sens[i]->update();}
-}
-
-void Sailboat::updateTestSensors()
-{
-    for(int i = 0; i < NB_SENSORS; ++i) {sensors[i]->updateT();}
+*/
+    sens[0]->update();
 }
 
 void Sailboat::communicateData()
@@ -154,26 +171,36 @@ void Sailboat::communicateData()
 }
 
 
-void Sailboat::Control(){
-    if(millis() - timerMillis > 100){
-        if(controller != nullptr){
+void Sailboat::Control()
+{
+    if(millis() - timerMillis > 100)
+    {
+        if(controller != nullptr)
+        {
             controller->ControlTime(cmd);
             watchdog = millis();
-        }else{
+        }
+        else
+        {
             if(millis() - watchdog > 60000)
                 setController(RETURNHOME_CONTROLLER);
         }
         
-        if(millis() - watchdogROS > 300000){
+        if(millis() - watchdogROS > 300000)
+        {
+            /*
             if(LOGGER)
                 Logger::Instance()->Toast("ROS DEAD??", "ROS DEAD??", 0);
             publishMsg("ROS DEAD??");
 			if(controller != controllers[RC_CONTROLLER])
 				setController(RETURNHOME_CONTROLLER);
+            */
         }
         
-        for(int i =0; i < NB_CONTROLLERS; ++i){
-            if(controllers[i] != NULL && !controllers[i]->isActivated()){
+        for(int i =0; i < NB_CONTROLLERS; ++i)
+        {
+            if(controllers[i] != NULL && !controllers[i]->isActivated())
+            {
                 controllers[i]->updateBackground();
             }
         }

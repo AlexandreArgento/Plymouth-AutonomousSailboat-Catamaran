@@ -5,6 +5,10 @@
 
 #include <Servo_Motor.h>
 
+#include <IMU.h>
+#include <RCModule.h>
+#include <WindSensor.h>
+
 #include <Controller.h>
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
@@ -14,11 +18,13 @@ class Sailboat
 {
 public:
 	Sailboat() : controller(NULL), pubMsg("sailboat_log", &sailboatmsgs), watchdog(0), watchdogROS(0), timerMillis(0), timerMillisCOM(0), timerMillisCOMAct(0)
+    {
+        controllerNames[STANDBY_CONTROLLER] = "Standby";
+    }
 	~Sailboat();
 	
 	void init(ros::NodeHandle* n);
 	void updateSensors();
-	void updateTestSensors();
 	void communicateData();
 	
 	//WindSensor* getWindSensor() {return (WindSensor*)sensors[SENSOR_WINDSENSOR];}
@@ -26,7 +32,7 @@ public:
 	//XSens* getIMU() {return (XSens*)sensors[SENSOR_IMU];}
     //BatterySensor* getBattery() {return (BatterySensor*)sensors[SENSOR_BATTERY];}
 	
-	//RC* getRC() {return (RC*)sens[SENSOR_RC];}
+	RC* getRC() {return (RC*)sens[SENSOR_RC];}
 	
 	Servo_Motor* getRudder() {return (Servo_Motor*)actuators[ACTUATOR_RUDDER];}
 	Servo_Motor* getSail() {return (Servo_Motor*)actuators[ACTUATOR_SAIL];}
@@ -51,16 +57,19 @@ public:
     void resetWatchdogROS() {watchdogROS = millis();}
     
 	static Sailboat* Instance() {if(sailboat == NULL) sailboat = new Sailboat(); return sailboat;}
+    int PREVIOUS_CONTROLLER;
+	int actualControllerI;
 private:
 	static Sailboat* sailboat;
 	
 	Controller** controllers;
-	int actualControllerI;
 	Controller* controller;
 	SensorROS* sensors[NB_SENSORS];
-	//Sensor* sens[NB_SENSORS_NOT_ROS];
+	Sensor* sens[NB_SENSORS_NOT_ROS];
 	ActuatorROS* actuators[NB_ACTUATORS];
 	
+    ros::NodeHandle* nh;
+    
 	geometry_msgs::Twist cmd;
     
     ros::Publisher pubMsg;

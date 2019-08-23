@@ -6,20 +6,38 @@
 /*MISC*/
 /******/
 //RC
-#define RC_1 0
-#define RC_2 1
-#define RC_3 2
-#define RC_4 3
-#define RC_5 4
-#define RC_6 5
+#define RC_CHANNEL_1 0
+#define RC_CHANNEL_2 1
+#define RC_CHANNEL_3 2
+#define RC_CHANNEL_4 3
+#define RC_CHANNEL_5 4
+#define RC_CHANNEL_6 5
 
-#define RC_PIN_1 A8
+#define RC_PIN_1 A2
 #define RC_PIN_2 A9
-#define RC_PIN_3 A10
+#define RC_PIN_3 A3
 #define RC_PIN_4 A11
 #define RC_PIN_5 A12
 #define RC_PIN_6 A13
 
+#define RC_NUM_CHANNELS 6
+#define RC_1_MIN    1105
+#define RC_1_MAX    1941
+#define RC_2_MIN    0
+#define RC_2_MAX    0
+#define RC_3_MIN    1094
+#define RC_3_MAX    1746
+#define RC_4_MIN    0
+#define RC_4_MAX    0
+#define RC_5_MIN    0
+#define RC_5_MAX    0
+#define RC_6_MIN    0
+#define RC_6_MAX    0
+
+#define RC_RUDDER	RC_CHANNEL_1
+#define RC_SAIL		RC_CHANNEL_3
+//#define RC_AUTO		RC_2
+/*
 //RC Config
 #ifdef FLYSKY
 #define RC_NUM_CHANNELS 4
@@ -80,5 +98,5 @@
 #define RC_SAIL		RC_3
 #define RC_AUTO		RC_2
 #endif
-
+*/
 #endif

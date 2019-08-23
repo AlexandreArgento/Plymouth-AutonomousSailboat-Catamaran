@@ -5,14 +5,14 @@
 /**********************************************ID********************************************/
 /**SENSORS**/
 /***********/
-#define NB_SENSORS		4
+#define NB_SENSORS		1
 
-#define SENSOR_WINDSENSOR	0
-#define SENSOR_GPS			1
-#define SENSOR_IMU			2
-#define SENSOR_BATTERY      3
+#define SENSOR_WINDSENSOR	1
+//#define SENSOR_GPS		2
+#define SENSOR_IMU			0
+//#define SENSOR_BATTERY      3
 
-#define NB_SENSORS_NOT_ROS		1
+#define NB_SENSORS_NOT_ROS		0
 
 #define SENSOR_RC			0
 
@@ -25,7 +25,7 @@
 
 /**********************************************PINS********************************************/
 //WIND
-#define WIND_ANEMOMETER_PIN 3
+//#define WIND_ANEMOMETER_PIN 3
 
 
 /*****************************************CONFIGURATION****************************************/
@@ -36,22 +36,22 @@
 #define WIND_SENSOR_MAX 990
 
 //RUDDER
-#define RUDDER_POS_MIN  20
-#define RUDDER_POS_NEUTRAL  80
-#define RUDDER_POS_MAX  150
+#define RUDDER_POS_MIN  175
+#define RUDDER_POS_NEUTRAL  350
+#define RUDDER_POS_MAX  510
 
-#define RUDDER_MIN  -45
+#define RUDDER_MIN  -90
 #define RUDDER_NEUTRAL  0
-#define RUDDER_MAX  45
+#define RUDDER_MAX  90
 
 //SAIL
+#define WINCH_ANGLE_MIN 220
+#define WINCH_ANGLE_NEUTRAL WINCH_ANGLE_MIN
+#define WINCH_ANGLE_MAX 390
+#define WINCH_DIAMETER 23 // in mm
+
 #define SAIL_MIN 0
 #define SAIL_NEUTRAL SAIL_MIN
 #define SAIL_MAX 90
-
-#define WINCH_ANGLE_MIN 38
-#define WINCH_ANGLE_NEUTRAL WINCH_ANGLE_MIN
-#define WINCH_ANGLE_MAX 112
-#define WINCH_DIAMETER 23 // in mm
 
 #endif

@@ -1,4 +1,4 @@
-#define SAILBOAT
+#define SAILBOAT_CATAMARAN
 #define VERSION_ARDUINO "1.2"
 
 #ifdef SAILBOAT
@@ -22,9 +22,15 @@
 
 /**CONTROLLERS**/
 /***********/
-#define NB_CONTROLLERS 1
+#define NB_CONTROLLERS 3
 
 #define STANDBY_CONTROLLER 0
+#define RETURNHOME_CONTROLLER 1
+//#define RUDDERSAIL_CONTROLLER 2
+//#define HEADER_CONTROLLER 3
+#define RC_CONTROLLER 2
+//#define SAILCAP_CONTROLLER 5
+//#define RUDDER_CONTROLLER 6
 
 /*******COMMON CONFIG********/
 
@@ -33,9 +39,9 @@
 /**PIN**/
 /********/
 //RUDDER
-#define RUDDER_PIN 6
+#define RUDDER_PIN 0
 //SAIL
-#define WINCH_PIN 7
+#define WINCH_PIN 4
 //WIND DIRECTION SENSOR
 #define WIND_SENSOR_PIN A0
 //BATTERY SENSOR
@@ -52,7 +58,7 @@
 //////
 //LCD I2C
 #define LOGGER 0
-#define LCD_SCREEN_ADDRESS    0x3f
+//#define LCD_SCREEN_ADDRESS    0x3f
 // RTC Module: I2C bus
 // SDA pin 20
 // SCL pin 21
