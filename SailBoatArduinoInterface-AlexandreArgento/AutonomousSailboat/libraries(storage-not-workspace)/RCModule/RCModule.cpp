@@ -2,32 +2,47 @@
 #include <Arduino.h>
 #include <Sailboat.h>
 
-void RC::updateMeasures()
+void RC::updateMeasures() 
 {
-	if(millis() - watchdog > 10000 && controlling)
-    {
-		Logger::Instance()->Log(0,"Changing Controller to : " + String(previousController), "RC Lost");
-		controlling = false;
-		Sailboat::Instance()->setController(previousController);
-	}
+    uint16_t duration;
+    uint16_t control = 0;
+    
+    // Rudder:
+    duration = pulseIn(RC_PIN_1, HIGH);
+    if (duration == 0) {control = 0;}
+    //else {control = mapf(duration,RC_1_MIN,RC_1_MAX,175,510);}
+    else {control = mapf(duration,RC_1_MIN,RC_1_MAX,220,390);}
+    //rc_rudder = control;
+    
+    // Sail:
+    duration = pulseIn(RC_PIN_3, HIGH);
+    if (duration == 0) {control = 0;}
+    //else {control = mapf(duration,RC_3_MIN,RC_3_MAX,220,390);}
+    else {control = mapf(duration,RC_3_MIN,RC_3_MAX,175,510);}
+    //Serial.println("ok");
+    //rc_sail = control;
 }
 
+
+/*
 void RC::interruptCH(uint8_t channel, uint8_t pin)
 {
-	if (digitalRead(pin) == HIGH) 
+    uint16_t control;
+    uint16_t duration = pulseIn(pin, HIGH);
+    
+    if (channel == 0)
     {
-		rc_start[channel] = micros();
-	}
-    else 
+        control = map(duration,RC_1_MIN,RC_1_MAX,175,510);
+        Sailboat::Instance()->getRudder()->RCCommand(control);
+    }
+    
+    if (channel == 2)
     {
-		uint16_t rc_compare = (uint16_t)(micros() - rc_start[channel]);
-		rc_values[channel] = rc_compare;
-	}
-	if(!controlling)
-    {
-		previousController = Sailboat::Instance()->actualControllerIndex();
-		Sailboat::Instance()->setController(RC_CONTROLLER);
-	}
-	watchdog = millis();
-	controlling = true;
+        control = map(duration,RC_3_MIN,RC_3_MAX,220,390);
+        Sailboat::Instance()->getSail()->RCCommand(control);
+    }
+    rc_values[channel] = control;
+    
+    //Sailboat::Instance()->setController(RC_CONTROLLER);
 }
+*/

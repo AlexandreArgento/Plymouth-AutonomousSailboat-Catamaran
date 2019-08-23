@@ -64,4 +64,14 @@ void IMU::communicateData()
 
 	msg.header.stamp = nh->now();
 	pub.publish(&msg);
+    
+    /// ROS INFO
+/*
+    char message[64] = "IMU heading: ";
+    char data[64];
+    dtostrf(heading,10,10,data);
+    nh->loginfo(message);
+    //nh->loginfo(data);
+*/
+    
 }
