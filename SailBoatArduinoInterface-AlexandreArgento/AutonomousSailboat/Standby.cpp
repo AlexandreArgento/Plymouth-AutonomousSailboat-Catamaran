@@ -5,5 +5,7 @@ Standby::Standby(){
 }
 void Standby::init() {
 }
-void Standby::Control(const geometry_msgs::Twist& cmd) {
+void Standby::Control(const geometry_msgs::Twist& cmd) 
+{
+  Serial.println("Standby");
 }
